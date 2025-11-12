@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Gift</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ff9a9e, #fecfef);
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Agar hati tidak keluar layar */
+            position: relative;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            z-index: 1; /* Agar container di atas hiasan */
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+        }
+        button {
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        #balloon {
+            font-size: 100px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        #message {
+            display: none;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        #login {
+            display: block;
+        }
+        #game {
+            display: none;
+        }
+        #nextPage {
+            display: none;
+        }
+        /* Hiasan Love: Animasi hati jatuh */
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff6b6b;
+            animation: fall 5s linear infinite;
+            pointer-events: none; /* Agar tidak mengganggu klik */
+        }
+        @keyframes fall {
+            0% { top: -50px; opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
+        }
+        /* Emoji hiasan statis */
+        .decor {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.7;
+        }
+        .decor1 { top: 10%; left: 10%; }
+        .decor2 { top: 20%; right: 15%; }
+        .decor3 { bottom: 15%; left: 20%; }
+        .decor4 { bottom: 25%; right: 10%; }
+        /* Animasi kucing senderan */
+        .cats {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: sway 3s ease-in-out infinite;
+        }
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hiasan statis -->
+    <div class="decor decor1">💖</div>
+    <div class="decor decor2">🌸</div>
+    <div class="decor decor3">💕</div>
+    <div class="decor decor4">🌹</div>
+
+    <!-- Hiasan animasi hati jatuh (akan dibuat dinamis via JS) -->
+    <div id="hearts"></div>
+
+    <div class="container">
+        <div id="login">
+            <h1>Masukkan Passcode 💕</h1>
+            <input type="password" id="passcode" placeholder="Masukkan passcode">
+            <button onclick="checkPasscode()">Masuk</button>
+            <p id="error" style="color: red; display: none;">Passcode salah!</p>
+        </div>
+        <div id="game">
+            <h1>Klik Balon Sampai Meletus! 🎈💖</h1>
+            <div id="balloon" onclick="clickBalloon()">🎈</div>
+            <p>Klik: <span id="clicks">0</span></p>
+            <div id="message">
+                <p>Happy Birthday, Sayangg! 🎉💕</p>
+                <p>Semoga di umur baru ini kamu selalu bahagia, sehat, dan semua hal baik datang ke hidup kamu. I’ll keep trying to be better, for you and for us. I love you, always. 💫🌹</p>
+                <button onclick="showNext()">➡️ Next</button>
+            </div>
+        </div>
+        <div id="nextPage">
+            <h1>Special Surprise! 💕</h1>
+            <div class="cats">🐱💕🐈‍⬛</div> <!-- Animasi kucing senderan -->
+            <p>From : Darrel</p>
+            <p>To : Aira</p>
+        </div>
+    </div>
+
+    <script>
+        let clicks = 0;
+        const maxClicks = 10; // Jumlah klik sampai balon meletus
+
+        function checkPasscode() {
+            const passcode = document.getElementById('passcode').value;
+            if (passcode === '24/11/12') {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('game').style.display = 'block';
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        function clickBalloon() {
+            clicks++;
+            document.getElementById('clicks').textContent = clicks;
+            if (clicks >= maxClicks) {
+                document.getElementById('balloon').style.display = 'none';
+                document.getElementById('message').style.display = 'block';
+            }
+        }
+
+        function showNext() {
+            document.getElementById('game').style.display = 'none';
+            document.getElementById('nextPage').style.display = 'block';
+        }
+
+        // Fungsi untuk membuat hati jatuh secara acak
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw'; // Posisi horizontal acak
+            heart.style.animationDelay = Math.random() * 5 + 's'; // Delay acak
+            document.body.appendChild(heart);
+
+            // Hapus hati setelah animasi selesai
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Buat hati jatuh setiap 1 detik
+        setInterval(createHeart, 1000);
+    </script>
+</body>
+</html>
